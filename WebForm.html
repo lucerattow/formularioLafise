@@ -1,0 +1,324 @@
+<!--  ----------------------------------------------------------------------  -->
+<!--  NOTE: Please add the following <META> element to your page <HEAD>.      -->
+<!--  If necessary, please modify the charset parameter to specify the        -->
+<!--  character set of your HTML page.                                        -->
+<style>
+    .form-group {
+        margin-bottom: 0;
+    }
+    .form-control {
+        font-family: "Open Sans", sans-serif;
+        margin-bottom: 0;
+        /* padding-bottom: 20px; */
+        position: relative;
+        display: block;
+        width: 100%;
+        height: calc(10.5em + 0.75rem + 2px);
+        padding: 0;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #495057;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 0;
+        border-radius: 0.25rem;
+        -webkit-transition: border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+        transition: border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+    }
+    .form-control .form-input,
+    .form-textarea {
+        border: 2px solid #f0f0f0;
+        border-radius: 3px;
+        display: block;
+        font-size: 18px;
+        padding: 10px;
+        width: 100%;
+        display: inline-block;
+    }
+    .form-textarea {
+        height: 164px;
+    }
+    /*
+    .form-input::placeholder{
+        font-size: 14px;
+        color: #4d4d4d;
+    }
+    .form-control .form-input, .form-select, .form-textarea::placeholder {
+        font-weight:400;
+        font-family: "Open Sans", sans-serif;
+        font-size: 14px;
+    }*/
+    .form-control .form-select {
+        border: 2px solid #f0f0f0;
+        border-radius: 3px;
+        color: #4d4d4d;
+        font-family: "Open Sans", sans-serif;
+        font-size: 16px;
+        font-weight: 300;
+        height: 41px;
+        line-height: 15px !important;
+        width: 100% !important;
+        padding-left: 8px !important;
+        vertical-align: middle;
+        background-color: #fff;
+    }
+    .jotform-container.version-2 .form-label {
+        padding-top: 2.5rem;
+        font-size: 11px;
+        font-weight: 600;
+    }
+    .form-checkbox {
+        border: 0px solid #f0f0f0!important;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        background: #fafafa;
+        -webkit-box-shadow: inset 0 0 0 3px white, 0 0 0 2px #cbcbcb;
+        box-shadow: inset 0 0 0 3px white, 0 0 0 2px #cbcbcb;
+        color: #cbcbcb;
+        cursor: pointer;
+        height: 17px;
+        margin: 4px;
+        margin-bottom: -4px;
+        -webkit-transition: 0.2s;
+        transition: 0.2s;
+        width: 17px !important;
+        outline: none !important;
+        padding: 8px!important;
+        margin-left: -14px;
+    }
+    .form-checkbox:hover {
+        color: #6FCF97;
+        border: none !important;
+        outline: none !important;
+    }
+    .checkboxform {
+        display: inherit;
+        width: 100%;
+        height: 0;
+        padding: 0;
+    }
+    .form-checkbox:checked {
+        background: #6FCF97;
+        -webkit-box-shadow: inset 0 0 0 3px white, 0 0 0 2px #6fcf97;
+        box-shadow: inset 0 0 0 3px white, 0 0 0 2px #6fcf97;
+        outline: none !important;
+        border: none !important;
+    }
+    .btn.btn-lafise {
+        border-radius: 0;
+        font-weight: 400;
+        font-size: 18px;
+        padding: 0 2rem 0 2rem;
+        min-height: 6rem;
+        line-height: 6rem;
+        width: 100%;
+        font-family: "Open Sans";
+        border-radius: 3px;
+    }
+    .btn-lafise-esmeralda {
+        background-color: #018765;
+        color: #fff;
+        border-color: #018765;
+    }
+    .btn {
+        border-radius: 2px;
+        color: #fff;
+        font-family: "Open Sans", sans-serif;
+        font-size: 16px;
+        font-weight: 400;
+        padding: 18px 76px;
+    }
+    .btn-lafise-esmeralda-seo:hover,
+    .btn-lafise-esmeralda-seo:focus,
+    .btn-lafise-esmeralda-seo:active{
+        background-color: #33ba75;
+        color: #fff;
+        border-color: #33ba75;
+    }
+    .form-label {
+        display: inline-block;
+        margin-top: 25px;
+        font-size: 18px;
+    }
+    .form-control .form-input:focus {
+        border: 2px solid #008866;
+        outline: none;
+    }
+    .form-control .form-select:focus {
+        border: 2px solid #008866;
+        outline: none;
+    }
+    .form-control .form-textarea:focus {
+        border: 2px solid #008866;
+        outline: none;
+    }
+    .box-container {
+        width: 60%;
+        height: 922px;
+        margin-left: 53px;
+    }
+    .is-required:after {
+        content: '*';
+        margin-left: 3px;
+        color: red;
+        font-weight: bold;
+    }
+</style>
+<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+<script src="https://www.google.com/recaptcha/api.js"></script>
+<script>
+    function timestamp() {
+        var response = document.getElementById("g-recaptcha-response");
+        if (response == null || response.value.trim() == "") {
+            var elems = JSON.parse(document.getElementsByName("captcha_settings")[0].value);
+            elems["ts"] = JSON.stringify(new Date().getTime());
+            document.getElementsByName("captcha_settings")[0].value = JSON.stringify(elems);
+        }
+    }
+    setInterval(timestamp, 500);
+</script>
+<!--  ----------------------------------------------------------------------  -->
+<!--  NOTE: Please add the following <section rel="redactor-form-tag"> element to your page.             -->
+<!--  ----------------------------------------------------------------------  -->
+<form action="https://bancolafise--sandbox.my.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8" method="post">
+    <div class="contenedor box-container">
+        <div class="form-control">
+            <!--  ----------------------------------------------------------------------  -->
+            <!--  NOTE: These fields are optional debugging elements. Please uncomment    -->
+            <!--  these lines if you wish to test in debug mode.                          -->
+            <!--  <input type="hidden" name="debug" value=1>                              -->
+            <!--  <input type="hidden" name="debugEmail"                                  -->
+            <!--  value="msantamaria@sistematicainternacional.com">                       -->
+            <!--  ----------------------------------------------------------------------  -->
+            <input type="hidden" name="captcha_settings" value='{"keyname":"formularioweb","fallback":"true","orgid":"00D21000000A6Ag","ts":"1660066767023"}'>
+            <input type="hidden" name="orgid" value="00D21000000A6Ag">
+            <input type="hidden" name="retURL" value="https://www.lafise.com/canales-digitales/index.html">
+            <input type="hidden" name="recordType" id="recordType" value="01221000002YWRYAA4">
+            <input type="hidden" name="type" id="type" value="Web-To-Case">
+            <input type="hidden" name="00N1O00000B4i3j" id="00N1O00000B4i3j" value="a1p21000003FrfrAAC"><!-- Structure-->
+            <input type="hidden" name="00N1O00000B4isc" id="00N1O00000B4isc" value="a231O000001CCuIQAW"><!-- Compañía-->
+            <input type="hidden" name="00N2100000AE8v9" id="00N2100000AE8v9" value="NI"><!-- País-->
+            <!--
+                <input type="hidden" name="debug" value=1>
+                <input type="hidden" name="debugEmail" value="msantamaria@sistematicainternacional.com">
+            -->
+            
+            <label class="form-label is-required" for="name">Nombre Completo</label>
+            <input class="form-input" id="00N2100000NFflI" maxlength="250" name="00N2100000NFflI" placeholder="" size="20" type="text" onkeypress="return soloLetras(event);">
+            <br>
+
+            <label class="form-label is-required" for="email">Correo electrónico </label>
+            <input class="form-input" id="email" maxlength="80" name="email" placeholder="" size="20" type="email">
+            <br>
+
+            <label class="form-label is-required" for="phone">Teléfono </label>
+            <input class="form-input validanumericos" id="00N1O00000B4iIt" maxlength="80" name="00N1O00000B4iIt" placeholder="" size="20" type="number" oninput="maxLengthCheck(this)">
+            <br>
+
+            <label class="form-label is-required" for="clientelafise">¿Es Cliente LAFISE?</label>
+            <input class="form-input form-checkbox checkboxform" id="00N2100000NFZMh" name="00N2100000NFZMh" type="checkbox" value="1">
+            <br>
+
+            <label class="form-label is-required" for="description">¿País de ubicación actual?</label>
+            <select class="form-select" id="00N2100000NFYf2" name="00N2100000NFYf2" title="País de Ubicación Actual">
+                <option value="">--Seleccione--</option>
+                <option value="Costa Rica">Costa Rica</option>
+                <option value="Honduras">Honduras</option>
+                <option value="Nicaragua">Nicaragua</option>
+                <option value="Panamá">Panamá</option>
+                <option value="República Dominicana">República Dominicana</option>
+            </select>
+            <br>
+
+            <label class="form-label is-required" for="subject">Asunto </label>
+            <input class="form-input" id="00N2100000NFflD" maxlength="40" name="00N2100000NFflD" placeholder="" size="20" type="text" onkeypress="return soloLetras(event);">
+            <br>
+
+            <label class="form-label is-required" for="description">Mensaje </label>
+            <textarea class="form-textarea" name="description" placeholder=""></textarea>
+            <br>
+
+            <input type="hidden" id="external" name="external" value="1">
+            <br>
+
+            <div class="g-recaptcha" data-sitekey="6LfzgQ0hAAAAAJoQEegt2de3FVjJOQI5H6kIdWG5">
+                <div style="width: 304px; height: 78px;">
+                    <div>
+                        <iframe title="reCAPTCHA" src="https://www.google.com/recaptcha/api2/anchor?ar=1&amp;k=6LfzgQ0hAAAAAJoQEegt2de3FVjJOQI5H6kIdWG5&amp;co=aHR0cHM6Ly93d3cubGFmaXNlLmNvbTo0NDM.&amp;hl=en&amp;v=3TZgZIog-UsaFDv31vC4L9R_&amp;size=normal&amp;cb=630hdqbgshfj" width="304" height="78" role="presentation" name="a-ctz4wlqq4g1j" frameborder="0" scrolling="no" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation allow-modals allow-popups-to-escape-sandbox"></iframe>
+                    </div>
+                    <textarea id="g-recaptcha-response" name="g-recaptcha-response" class="g-recaptcha-response" style="width: 250px; height: 40px; border: 1px solid rgb(193, 193, 193); margin: 10px 25px; padding: 0px; resize: none; display: none;"></textarea>
+                </div>
+                <iframe style="display: none;"></iframe>
+            </div>
+            <br>
+
+            <input type="submit" class=" btn btn-color-espemarlda btn-lafise-esmeralda " name="submit">
+        </div>
+    </div>
+</form>
+<script type="text/javascript">
+    function wrapForm() {
+        var endpoint = "https://bancolafise--sandbox.my.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8";
+        var method = "post";
+        //var e = document.getElementsByTagName("form")[0];
+        //var n = document.createElement("div");
+        //n.innerHTML = e.innerHTML;
+        //e.parentNode.replaceChild(n, e);
+
+        var DivWrapper = document.getElementById("custom-form-wrapper");
+        NewForm = document.createElement("form");
+        NewForm.action = endpoint;
+        NewForm.method = method;
+        NewForm.innerHTML = DivWrapper.innerHTML;
+        DivWrapper.parentNode.replaceChild(NewForm, DivWrapper);
+    }
+
+    $(document).ready(function() {
+        wrapForm();
+    });
+
+    function isEmail(email) {
+        return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email);
+    }
+
+    //Se utiliza para que el campo de texto solo acepte letras
+    function soloLetras(e) {
+        key = e.keyCode || e.which;
+        tecla = String.fromCharCode(key).toString();
+        letras = " áéíóúabcdefghijklmnñopqrstuvwxyzÁÉÍÓÚABCDEFGHIJKLMNÑOPQRSTUVWXYZ";//Se define todo el abecedario que se quiere que se muestre.
+        especiales = [8, 37, 39, 46, 6]; //Es la validación del KeyCodes, que teclas recibe el campo de texto.
+
+        tecla_especial = false
+        for(var i in especiales) {
+            if(key == especiales[i]) {
+                tecla_especial = true;
+                break;
+            }
+        }
+
+        if(letras.indexOf(tecla) == -1 && !tecla_especial) {
+            return false;
+        }
+    }
+
+    function validaNumericos(event) {
+        if(event.charCode >= 48 && event.charCode <= 57) {
+            return true;
+        }
+        return false;
+    }
+
+    onload = function(){
+        var ele = document.querySelectorAll('.validanumericos')[0];
+        ele.onkeypress = function(e) {
+            if(isNaN(this.value+String.fromCharCode(e.charCode))) return false;
+        }
+        ele.onpaste = function(e){
+            e.preventDefault();
+        }
+    }
+</script>
