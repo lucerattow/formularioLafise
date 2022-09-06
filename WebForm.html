@@ -35,7 +35,7 @@
         border-radius: 3px;
         display: block;
         font-family: inherit;
-        font-size: 11px;
+        font-size: 12px;
         padding: 10px;
         width: 100%;
         display: inline-block;
@@ -43,16 +43,16 @@
     .form-control .form-input,
     .form-select,
     .form-textarea::placeholder {
-        color: #C9C9C9;
+        color: #4d4d4d;
         font-weight:400;
-        font-size: 12px;
+        font-size: 14px;
     }
     .form-control .form-select {
         border: 2px solid #f0f0f0;
         border-radius: 3px;
         color: #4d4d4d;
         font-family: "Open Sans", sans-serif;
-        font-size: 11px;
+        font-size: 12px;
         font-weight: 300;
         height: 41px;
         line-height: 15px !important;
@@ -117,25 +117,41 @@
     }
     .btn-lafise-esmeralda {
         background-color: #086;
-        color: #fff;
+        color: #fff!important;
         border-color: #086;
     }
     .btn-lafise-esmeralda-seo:hover,
     .btn-lafise-esmeralda-seo:focus,
     .btn-lafise-esmeralda-seo:active {
         background-color: #33ba75;
-        color: #fff;
+        color: #fff!important;
         border-color: #33ba75;
     }
     .form-label {
         display: inline-block;
         margin-top: 25px;
-        font-size: 14px;
+        font-size: 16px;
     }
     .box-container {
         width: 60%;
-        height: 1100px;
+        height: 1000px;
         margin-left: 53px;
+    }
+    .is-required:after {
+        content: '*';
+        margin-left: 3px;
+        color: red;
+        font-weight: bold;
+
+    }
+
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    input[type=number] {
+        -moz-appearance:textfield;
     }
 </style>
 <META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
@@ -174,23 +190,23 @@
                 <input type="hidden" name="debugEmail" value="msantamaria@sistematicainternacional.com">
                 -->
 
-                <label class="form-label" for="name">Nombre Completo:</label>
-                <input class="form-input" id="00N2100000NFflI" maxlength="250" name="00N2100000NFflI" placeholder="Ingresa tu nombre completo" size="20" type="text" />
+                <label class="form-label is-required" for="name">Nombre Completo:</label>
+                <input class="form-input" id="00N2100000NFflI" maxlength="250" name="00N2100000NFflI" placeholder="Ingresa tu nombre completo" size="20" type="text" onkeypress="return soloLetras(event);"/>
                 <br>
 
-                <label class="form-label" for="email">Correo electrónico:</label>
-                <input class="form-input" id="email" maxlength="80" name="email" placeholder="Ingresa tu correo electrónico" size="20" type="text" />
+                <label class="form-label is-required" for="email">Correo electrónico:</label>
+                <input class="form-input" id="email" maxlength="80" name="email" placeholder="Ingresa tu correo electrónico" size="20" type="email" />
                 <br>
 
-                <label class="form-label" for="phone">Teléfono:</label>
-                <input class="form-input validanumericos" id="00N1O00000B4iIt" maxlength="80" name="00N1O00000B4iIt" placeholder="Ingresa tu número de teléfono" size="20" type="text" />
+                <label class="form-label is-required" for="phone">Teléfono:</label>
+                <input class="form-input validanumericos" id="00N1O00000B4iIt" maxlength="80" name="00N1O00000B4iIt" placeholder="Ingresa tu número de teléfono" size="20" type="number" oninput="maxLengthCheck(this)"/>
                 <br>
 
-                <label class="form-label" for="clientelafise">¿Es Cliente LAFISE?</label>
+                <label class="form-label is-required" for="clientelafise">¿Es Cliente LAFISE?</label>
                 <input class="form-input form-checkbox checkboxform" id="00N2100000NFZMh" name="00N2100000NFZMh" type="checkbox" value="1" />
                 <br>
 
-                <label class="form-label" for="description">¿País de ubicación actual?</label>
+                <label class="form-label is-required" for="description">¿País de ubicación actual?</label>
                 <select class="form-select" id="00N2100000NFYf2" name="00N2100000NFYf2" title="País de Ubicación Actual">
                     <option value="">--None--</option>
                     <option value="Costa Rica">Costa Rica</option>
@@ -201,13 +217,14 @@
                 </select>
                 <br>
 
-                <label class="form-label" for="subject">Asunto:</label>
+                <label class="form-label is-required" for="subject">Asunto:</label>
                 <input class="form-input" id="00N2100000NFflD" maxlength="40" name="00N2100000NFflD" placeholder="Ingresa el asunto"size="20" type="text" />
                 <br>
 
-                <label class="form-label" for="description">Mensaje:</label>
+
+                <label class="form-label is-required" for="description">Mensaje:</label>
                 <textarea class="form-textarea" name="description" placeholder="Tus comentarios..."></textarea>
-                <br>
+                <br><br>
 
                 <div class="g-recaptcha" data-sitekey="6LfzgQ0hAAAAAJoQEegt2de3FVjJOQI5H6kIdWG5"></div>
                 <br>
@@ -235,4 +252,47 @@
     $( document ).ready(function() {
         wrapForm();
     });
+
+
+    function isEmail(email) {
+        return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email);
+    }
+
+    //Se utiliza para que el campo de texto solo acepte letras
+    function soloLetras(e) {
+        key = e.keyCode || e.which;
+        tecla = String.fromCharCode(key).toString();
+        letras = " áéíóúabcdefghijklmnñopqrstuvwxyzÁÉÍÓÚABCDEFGHIJKLMNÑOPQRSTUVWXYZ";//Se define todo el abecedario que se quiere que se muestre.
+        especiales = [8, 37, 39, 46, 6]; //Es la validación del KeyCodes, que teclas recibe el campo de texto.
+
+        tecla_especial = false
+        for(var i in especiales) {
+            if(key == especiales[i]) {
+                tecla_especial = true;
+                break;
+            }
+        }
+
+        if(letras.indexOf(tecla) == -1 && !tecla_especial) {
+            return false;
+        }
+    }
+
+    function validaNumericos(event) {
+        if(event.charCode >= 48 && event.charCode <= 57) {
+            return true;
+        }
+        return false;
+    }
+
+    onload = function(){
+        var ele = document.querySelectorAll('.validanumericos')[0];
+        ele.onkeypress = function(e) {
+            if(isNaN(this.value+String.fromCharCode(e.charCode))) return false;
+        }
+        ele.onpaste = function(e){
+            e.preventDefault();
+        }
+    }
+
 </script>
