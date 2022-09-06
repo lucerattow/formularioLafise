@@ -228,10 +228,11 @@
 
                 <div class="g-recaptcha" data-sitekey="6LfzgQ0hAAAAAJoQEegt2de3FVjJOQI5H6kIdWG5"></div>
                 <br>
-                <input type="hidden"  id="external" name="external" value="1" />
+                <input type="hidden" id="external" name="external" value="1" />
                 <br>
 
-                <input class=" form-input btn btn-color-espemarlda btn-lafise-esmeralda " type="submit" name="submit">
+                <!-- <input class=" form-input btn btn-color-espemarlda btn-lafise-esmeralda " type="submit"> -->
+                <button class="form-input btn btn-color-espemarlda btn-lafise-esmeralda" onclick="event.preventDefault(); btnClick()">Enviar</button>
             </form>
         </div>
     </div>
@@ -242,17 +243,25 @@
         var method = "post";
 
         var DivWrapper = document.getElementById("custom-form-wrapper");
-        NewForm = document.createElement("form");
-        NewForm.action = endpoint;
-        NewForm.method = method;
-        NewForm.innerHTML = DivWrapper.innerHTML;
-        DivWrapper.parentNode.replaceChild(NewForm, DivWrapper);
+        var form = document.createElement("form");
+        form.action = endpoint;
+        form.method = method;
+        form.innerHTML = DivWrapper.innerHTML;
+        DivWrapper.parentNode.replaceChild(form, DivWrapper);
+        form.submit();
     }
 
-    $( document ).ready(function() {
-        wrapForm();
-    });
-
+    function btnClick() {
+        var validation = grecaptcha.getResponse().length !== 0;
+        if (validation)
+        {
+            wrapForm();
+        }
+        else
+        {
+            alert("verifique que usted no es un robot, haciendo click en el reCaptcha");
+        }
+    }
 
     function isEmail(email) {
         return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email);
@@ -294,5 +303,4 @@
             e.preventDefault();
         }
     }
-
 </script>
