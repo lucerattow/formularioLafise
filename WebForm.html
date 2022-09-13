@@ -157,16 +157,34 @@
 <META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
 <script src="https://www.google.com/recaptcha/api.js"></script>
 <script>
-     function timestamp() { var response = document.getElementById("g-recaptcha-response"); if (response == null || response.value.trim() == "") {var elems = JSON.parse(document.getElementsByName("captcha_settings")[0].value);elems["ts"] = JSON.stringify(new Date().getTime());document.getElementsByName("captcha_settings")[0].value = JSON.stringify(elems); } } setInterval(timestamp, 500);
+    var jsonElements = {
+        "keyname": "FormularioWeb",
+        "fallback": true,
+        "orgId": "00D21000000A6Ag",
+        "ts": ''
+    }
+
+
+     function timestamp() {
+        var response = document.getElementById("g-recaptcha-response");
+        if (response == null || response.value.trim() == "") {
+            //var elems = JSON.parse(document.getElementsByName("captcha_settings")[0].value);
+            var elems = jsonElements;
+                elems["ts"] = JSON.stringify(new Date().getTime());
+                document.getElementsByName("captcha_settings")[0].value = JSON.stringify(elems);
+            }
+        }
+        timestamp();
+        setInterval(timestamp, 500);
 </script>
 <!--  ----------------------------------------------------------------------  -->
 <!--  NOTE: Please add the following <FORM> element to your page.             -->
 <!--  ----------------------------------------------------------------------  -->
 <div class="contenedor box-container">
-    <div id="custom-form-wrapper">
+    <div id="custom-form-wrapper" style="display: block">
         <div class="form-control">
             <form action="https://bancolafise--sandbox.my.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8" method="POST">
-                <input type=hidden name='captcha_settings' value='{"keyname":"FormularioWeb","fallback":"true","orgId":"00D21000000A6Ag","ts":""}'>
+                <input type=hidden name='captcha_settings' value="">
                 <input type=hidden name="orgid" value="00D21000000A6Ag">
                 <input type=hidden name="retURL" value="https://www.lafise.com/canales-digitales/index.html">
                 <!--  ----------------------------------------------------------------------  -->
@@ -185,10 +203,10 @@
                 <input type=hidden name="00N1O00000B4i3j" id= "00N1O00000B4i3j" value="a1p21000003FrfrAAC"><!-- Structure-->
                 <input type=hidden name="00N1O00000B4isc" id= "00N1O00000B4isc" value="a231O000001CCuIQAW"><!-- Compañía-->
                 <input type=hidden name="00N2100000AE8v9" id= "00N2100000AE8v9" value="NI"><!-- País-->
-                <!--
+
                 <input type="hidden" name="debug" value=1>
                 <input type="hidden" name="debugEmail" value="msantamaria@sistematicainternacional.com">
-                -->
+
 
                 <label class="form-label is-required" for="name">Nombre Completo:</label>
                 <input class="form-input" id="00N2100000NFflI" maxlength="250" name="00N2100000NFflI" placeholder="Ingresa tu nombre completo" size="20" type="text" onkeypress="return soloLetras(event);"/>
@@ -223,24 +241,35 @@
 
 
                 <label class="form-label is-required" for="description">Mensaje:</label>
-                <textarea class="form-textarea" name="description" placeholder="Tus comentarios..."></textarea>
+                <textarea class="form-textarea" id="description" name="description" placeholder="Tus comentarios..."></textarea>
                 <br><br>
 
-                <div class="g-recaptcha" data-sitekey="6LfzgQ0hAAAAAJoQEegt2de3FVjJOQI5H6kIdWG5"></div>
-                <br>
                 <input type="hidden" id="external" name="external" value="1" />
                 <br>
 
                 <!-- <input class=" form-input btn btn-color-espemarlda btn-lafise-esmeralda " type="submit"> -->
-                <button class="form-input btn btn-color-espemarlda btn-lafise-esmeralda" onclick="event.preventDefault(); btnClick()">Enviar</button>
             </form>
         </div>
     </div>
+    <br>
+
+    <div class="g-recaptcha" data-sitekey="6LfzgQ0hAAAAAJoQEegt2de3FVjJOQI5H6kIdWG5"></div>
+    <br>
+
+    <button class="form-input btn btn-color-espemarlda btn-lafise-esmeralda" onclick="btnClick()" type="button">Enviar</button>
 </div>
 <script type="text/javascript">
     function wrapForm() {
         var endpoint = "https://bancolafise--sandbox.my.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8";
         var method = "post";
+
+        //Guardo los valores ingresados por el usuario
+        const nombre = document.getElementById("00N2100000NFflI").value;
+        const email = document.getElementById("email").value;
+        const telefono = document.getElementById("00N1O00000B4iIt").value;
+        const pais = document.getElementById("00N2100000NFYf2").value;
+        const asunto = document.getElementById("00N2100000NFflD").value;
+        const descripcion = document.getElementById("description").value;
 
         var DivWrapper = document.getElementById("custom-form-wrapper");
         var form = document.createElement("form");
@@ -248,19 +277,69 @@
         form.method = method;
         form.innerHTML = DivWrapper.innerHTML;
         DivWrapper.parentNode.replaceChild(form, DivWrapper);
+
+        //Vuelvo a establecer los valores que ingreso el usuario
+        document.getElementById("00N2100000NFflI").value = nombre;
+        document.getElementById("email").value = email;
+        document.getElementById("00N1O00000B4iIt").value = telefono;
+        document.getElementById("00N2100000NFYf2").value = pais;
+        document.getElementById("00N2100000NFflD").value = asunto;
+        document.getElementById("description").value = descripcion;
+
         form.submit();
     }
 
     function btnClick() {
-        var validation = grecaptcha.getResponse().length !== 0;
-        if (validation)
+        if (validarCampos())
         {
+            alert("El reCaptcha fue validado correctamente");
             wrapForm();
         }
         else
         {
             alert("verifique que usted no es un robot, haciendo click en el reCaptcha");
         }
+    }
+
+    function validarCampos() {
+        const nombre = document.getElementById("00N2100000NFflI").value;
+        const email = document.getElementById("email").value;
+        const telefono = document.getElementById("00N1O00000B4iIt").value;
+        const pais = document.getElementById("00N2100000NFYf2").value;
+        const asunto = document.getElementById("00N2100000NFflD").value;
+        const descripcion = document.getElementById("description").value;
+        const reCaptcha = grecaptcha.getResponse().length;
+
+        //if (nombre == "") {
+        //    console.log("La funcion dio false por el nombre: " + nombre)
+        //    return false;
+        //}
+        if (email == "") {
+            console.log("La funcion dio false por el email: " + email)
+            return false;
+        }
+        if (telefono == "") {
+            console.log("La funcion dio false por el telefono: " + telefono)
+            return false;
+        }
+        if (pais == "") {
+            console.log("La funcion dio false por el pais: " + pais)
+            return false;
+        }
+        if (asunto == "") {
+            console.log("La funcion dio false por el asunto: " + asunto)
+            return false;
+        }
+        if (descripcion == "") {
+            console.log("La funcion dio false por el descripcion: " + descripcion)
+            return false;
+        }
+        if (reCaptcha == 0) {
+            console.log("La funcion dio false por el reCaptcha: " + reCaptcha)
+            return false;
+        }
+
+        return true;
     }
 
     function isEmail(email) {
@@ -303,4 +382,5 @@
             e.preventDefault();
         }
     }
+
 </script>
